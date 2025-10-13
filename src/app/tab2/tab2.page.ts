@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SimpsonsService, Character } from '../services/simpsons.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-tab2',
@@ -7,7 +9,40 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class Tab2Page {
+  searchTerm: string = '';
+  characters: Character[] = [];
+  loading: boolean = false;
+  searched: boolean = false;
 
-  constructor() {}
+  constructor(private simpsonsService: SimpsonsService) {}
 
+  searchCharacters() {
+    if (this.searchTerm.trim() === '') {
+      return;
+    }
+
+    this.loading = true;
+    this.searched = true;
+    this.simpsonsService.searchCharacters(this.searchTerm).subscribe({
+      next: (response) => {
+        this.characters = response.results;
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error searching characters:', error);
+        this.loading = false;
+        this.characters = [];
+      }
+    });
+  }
+
+  clearSearch() {
+    this.searchTerm = '';
+    this.characters = [];
+    this.searched = false;
+  }
+
+  getImageUrl(portraitPath: string): string {
+    return environment.imageBaseUrl + portraitPath;
+  }
 }

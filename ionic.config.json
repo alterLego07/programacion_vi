@@ -1,0 +1,7 @@
+{
+  "name": "simpsons-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

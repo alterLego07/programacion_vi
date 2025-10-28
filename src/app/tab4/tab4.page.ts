@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; // Se elimina ViewChild e IonInfiniteScroll
 import { SimpsonsService, Episode } from '../services/simpsons.service';
 import { environment } from '../../environments/environment';
-import { IonInfiniteScroll } from '@ionic/angular';
 
 interface SeasonGroup {
   season: number;
@@ -15,11 +14,11 @@ interface SeasonGroup {
   standalone: false,
 })
 export class Tab4Page implements OnInit {
-  @ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
+  // Se elimina @ViewChild(IonInfiniteScroll) y la propiedad infiniteScroll
 
   allEpisodes: Episode[] = [];
-  groupedEpisodes: SeasonGroup[] = []; // Lista maestra de episodios agrupados
-  filteredGroups: SeasonGroup[] = []; // Lista filtrada para mostrar en la vista
+  groupedEpisodes: SeasonGroup[] = [];
+  filteredGroups: SeasonGroup[] = [];
   loading: boolean = false;
   page: number = 1;
   totalPages: number = 1;
@@ -28,37 +27,33 @@ export class Tab4Page implements OnInit {
   constructor(private simpsonsService: SimpsonsService) {}
 
   ngOnInit() {
-    this.loadEpisodes();
+    this.loadEpisodes(); // Inicia la carga de todas las páginas
   }
 
-  loadEpisodes(event?: any) {
+  loadEpisodes() { // Se elimina el parámetro 'event'
     if (this.page === 1) {
-      this.loading = true;
+      this.loading = true; // Mostrar spinner solo al inicio
     }
 
     this.simpsonsService.getEpisodes(this.page, 20).subscribe({
       next: (response) => {
         this.allEpisodes = [...this.allEpisodes, ...response.results];
         this.totalPages = response.pages;
-        this.groupEpisodes(); // Agrupará y aplicará el filtro
+        this.groupEpisodes(); // Agrupa y filtra en cada página cargada
 
-        this.loading = false;
-        if (event) {
-          event.target.complete();
-        }
-        
-        if (this.page >= this.totalPages) {
-          if (this.infiniteScroll) {
-            this.infiniteScroll.disabled = true;
-          }
+        // Lógica de carga recursiva
+        if (this.page < this.totalPages) {
+          // Si hay más páginas, carga la siguiente
+          this.page++;
+          this.loadEpisodes();
+        } else {
+          // Se cargaron todas las páginas, ocultamos el spinner
+          this.loading = false;
         }
       },
       error: (error) => {
         console.error('Error loading episodes:', error);
-        this.loading = false;
-        if (event) {
-          event.target.complete();
-        }
+        this.loading = false; // Detener carga en caso de error
       }
     });
   }
@@ -74,60 +69,44 @@ export class Tab4Page implements OnInit {
     }
 
     this.groupedEpisodes = Array.from(groups.keys())
-      .sort((a, b) => a - b) 
+      .sort((a, b) => a - b)
       .map(season => ({
         season,
         episodes: groups.get(season)!.sort((a,b) => a.episode_number - b.episode_number)
       }));
-    
-    // Aplicar el filtro actual (o mostrar todo si no hay filtro)
+
     this.applyFilter();
   }
 
-  /**
-   * Se llama cada vez que el usuario escribe en la barra de búsqueda
-   */
   handleSearch(event: any) {
     this.searchTerm = event.target.value;
     this.applyFilter();
   }
 
-  /**
-   * Filtra la lista 'groupedEpisodes' y asigna el resultado a 'filteredGroups'
-   */
   applyFilter() {
     const term = this.searchTerm.trim().toLowerCase();
 
     if (!term) {
-      // Si no hay término de búsqueda, mostrar todos los episodios
       this.filteredGroups = [...this.groupedEpisodes];
       return;
     }
 
-    // Aplicar filtro
     this.filteredGroups = this.groupedEpisodes
       .map(group => {
-        // Filtramos los episodios de este grupo
         const filteredEpisodes = group.episodes.filter(episode =>
           episode.name.toLowerCase().includes(term) ||
           episode.synopsis.toLowerCase().includes(term)
         );
-        
-        // Devolvemos un *nuevo* objeto de grupo con solo los episodios filtrados
+
         return {
           ...group,
           episodes: filteredEpisodes
         };
       })
-      // Excluir temporadas que se quedaron sin episodios después del filtro
       .filter(group => group.episodes.length > 0);
   }
 
-
-  loadMore(event: any) {
-    this.page++;
-    this.loadEpisodes(event);
-  }
+  // Se elimina la función loadMore(event: any)
 
   getImageUrl(imagePath: string): string {
     if (!imagePath || imagePath.length < 5) {

@@ -13,33 +13,32 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar 
-    [(ngModel)]="searchTerm" 
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
     (ionInput)="handleSearch($event)"
     placeholder="Buscar episodio por nombre o sinopsis..."
     [debounce]="300"
     showClearButton="always">
   </ion-searchbar>
 
-  <div *ngIf="loading && allEpisodes.length === 0" class="ion-text-center ion-padding">
+  <div *ngIf="loading" class="ion-text-center ion-padding">
     <ion-spinner></ion-spinner>
+    <p>Cargando todas las temporadas...</p>
   </div>
 
   <ion-grid>
     <ion-row>
       <ion-col size="12" size-md="10" offset-md="1" size-lg="8" offset-lg="2">
 
-        <ion-accordion-group [multiple]="true" *ngIf="(!loading || allEpisodes.length > 0) && filteredGroups.length > 0">
-          
+        <ion-accordion-group [multiple]="true" *ngIf="!loading && filteredGroups.length > 0">
+
           <ion-accordion *ngFor="let group of filteredGroups" [value]="group.season">
-            
+
             <ion-item slot="header" color="light">
               <ion-label>
                 Temporada {{ group.season }}
               </ion-label>
-            </ion-item>
-
-            <div class="ion-no-padding" slot="content">
+            </ion-item> <div class="ion-no-padding" slot="content">
               <ion-list lines="inset">
                 <ion-item *ngFor="let episode of group.episodes" class="episode-item">
                   <ion-thumbnail slot="start">
@@ -61,11 +60,6 @@
           <ion-icon name="search-outline" style="font-size: 48px; color: #ccc;"></ion-icon>
           <p>No se encontraron episodios para "{{ searchTerm }}".</p>
         </div>
-
-        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)" [disabled]="searchTerm.length > 0 || (infiniteScroll && infiniteScroll.disabled)">
-          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando más episodios...">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
 
       </ion-col>
     </ion-row>

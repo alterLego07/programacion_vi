@@ -9,7 +9,7 @@ El sistema mostrará todos los personajes de la Serie **The Simpsons**, los cap�
 - **Luis Emilio Garcia** - Project Manager (PM)
 - **Maria Jose Martinez** - Developer 1
 - **Junior Velaustegui** - Developer 2
-- - **Alexis Benitez** - Developer 3
+- **Alexis Benitez** - Developer 3
 
 ## Características
 

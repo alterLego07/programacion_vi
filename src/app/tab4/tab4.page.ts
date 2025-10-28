@@ -18,10 +18,12 @@ export class Tab4Page implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll!: IonInfiniteScroll;
 
   allEpisodes: Episode[] = [];
-  groupedEpisodes: SeasonGroup[] = [];
+  groupedEpisodes: SeasonGroup[] = []; // Lista maestra de episodios agrupados
+  filteredGroups: SeasonGroup[] = []; // Lista filtrada para mostrar en la vista
   loading: boolean = false;
   page: number = 1;
   totalPages: number = 1;
+  searchTerm: string = '';
 
   constructor(private simpsonsService: SimpsonsService) {}
 
@@ -38,14 +40,13 @@ export class Tab4Page implements OnInit {
       next: (response) => {
         this.allEpisodes = [...this.allEpisodes, ...response.results];
         this.totalPages = response.pages;
-        this.groupEpisodes();
+        this.groupEpisodes(); // Agrupará y aplicará el filtro
 
         this.loading = false;
         if (event) {
           event.target.complete();
         }
         
-        // Deshabilitar scroll infinito si llegamos al final
         if (this.page >= this.totalPages) {
           if (this.infiniteScroll) {
             this.infiniteScroll.disabled = true;
@@ -73,12 +74,55 @@ export class Tab4Page implements OnInit {
     }
 
     this.groupedEpisodes = Array.from(groups.keys())
-      .sort((a, b) => a - b) // Ordenar por temporada
+      .sort((a, b) => a - b) 
       .map(season => ({
         season,
-        episodes: groups.get(season)!.sort((a,b) => a.episode_number - b.episode_number) // Ordenar episodios
+        episodes: groups.get(season)!.sort((a,b) => a.episode_number - b.episode_number)
       }));
+    
+    // Aplicar el filtro actual (o mostrar todo si no hay filtro)
+    this.applyFilter();
   }
+
+  /**
+   * Se llama cada vez que el usuario escribe en la barra de búsqueda
+   */
+  handleSearch(event: any) {
+    this.searchTerm = event.target.value;
+    this.applyFilter();
+  }
+
+  /**
+   * Filtra la lista 'groupedEpisodes' y asigna el resultado a 'filteredGroups'
+   */
+  applyFilter() {
+    const term = this.searchTerm.trim().toLowerCase();
+
+    if (!term) {
+      // Si no hay término de búsqueda, mostrar todos los episodios
+      this.filteredGroups = [...this.groupedEpisodes];
+      return;
+    }
+
+    // Aplicar filtro
+    this.filteredGroups = this.groupedEpisodes
+      .map(group => {
+        // Filtramos los episodios de este grupo
+        const filteredEpisodes = group.episodes.filter(episode =>
+          episode.name.toLowerCase().includes(term) ||
+          episode.synopsis.toLowerCase().includes(term)
+        );
+        
+        // Devolvemos un *nuevo* objeto de grupo con solo los episodios filtrados
+        return {
+          ...group,
+          episodes: filteredEpisodes
+        };
+      })
+      // Excluir temporadas que se quedaron sin episodios después del filtro
+      .filter(group => group.episodes.length > 0);
+  }
+
 
   loadMore(event: any) {
     this.page++;
@@ -86,9 +130,7 @@ export class Tab4Page implements OnInit {
   }
 
   getImageUrl(imagePath: string): string {
-    // La API a veces devuelve null o un path incorrecto
     if (!imagePath || imagePath.length < 5) {
-      // Devuelve un placeholder. Ya tienes favicon.png en assets.
       return 'assets/icon/favicon.png';
     }
     return environment.episodeImageUrl + imagePath;

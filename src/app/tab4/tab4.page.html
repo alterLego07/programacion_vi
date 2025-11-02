@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Episodios
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Episodios</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="handleSearch($event)"
+    placeholder="Buscar episodio por nombre o sinopsis..."
+    [debounce]="300"
+    showClearButton="always">
+  </ion-searchbar>
+
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner></ion-spinner>
+    <p>Cargando todas las temporadas...</p>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="10" offset-md="1" size-lg="8" offset-lg="2">
+
+        <ion-accordion-group [multiple]="true" *ngIf="!loading && filteredGroups.length > 0">
+
+          <ion-accordion *ngFor="let group of filteredGroups" [value]="group.season">
+
+            <ion-item slot="header" color="light">
+              <ion-label>
+                Temporada {{ group.season }}
+              </ion-label>
+            </ion-item> <div class="ion-no-padding" slot="content">
+              <ion-list lines="inset">
+                <ion-item *ngFor="let episode of group.episodes" class="episode-item">
+                  <ion-thumbnail slot="start">
+                    <img [src]="getImageUrl(episode.image_path)" [alt]="episode.name">
+                  </ion-thumbnail>
+                  <ion-label>
+                    <h2>{{ episode.episode_number }}. {{ episode.name }}</h2>
+                    <p class="synopsis">{{ episode.synopsis }}</p>
+                    <p class="airdate" *ngIf="episode.airdate">Estreno: {{ episode.airdate }}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+          </ion-accordion>
+        </ion-accordion-group>
+
+        <div *ngIf="!loading && filteredGroups.length === 0 && searchTerm.length > 0" class="ion-text-center ion-padding">
+          <ion-icon name="search-outline" style="font-size: 48px; color: #ccc;"></ion-icon>
+          <p>No se encontraron episodios para "{{ searchTerm }}".</p>
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

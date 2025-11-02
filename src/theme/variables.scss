@@ -122,6 +122,51 @@ body.dark-theme {
   --app-muted-text: #c8d5ff;
 }
 
+body.theme-springfield-night {
+  --ion-color-primary: #ffde59;
+  --ion-color-primary-rgb: 255, 222, 89;
+  --ion-color-primary-contrast: #081629;
+  --ion-color-primary-contrast-rgb: 8, 22, 41;
+  --ion-color-primary-shade: #e0c54f;
+  --ion-color-primary-tint: #ffe370;
+
+  --ion-color-secondary: #2f55c7;
+  --ion-color-secondary-rgb: 47, 85, 199;
+  --ion-color-secondary-contrast: #fdfcff;
+  --ion-color-secondary-contrast-rgb: 253, 252, 255;
+  --ion-color-secondary-shade: #294bb1;
+  --ion-color-secondary-tint: #4a6bd0;
+
+  --ion-color-tertiary: #8ac6ff;
+  --ion-color-tertiary-rgb: 138, 198, 255;
+  --ion-color-tertiary-contrast: #0b1d33;
+  --ion-color-tertiary-contrast-rgb: 11, 29, 51;
+  --ion-color-tertiary-shade: #78addf;
+  --ion-color-tertiary-tint: #9ad0ff;
+
+  --ion-color-danger: #ff7b6b;
+  --ion-color-danger-rgb: 255, 123, 107;
+  --ion-color-danger-contrast: #0a1323;
+  --ion-color-danger-contrast-rgb: 10, 19, 35;
+  --ion-color-danger-shade: #e06c5e;
+  --ion-color-danger-tint: #ff8c7d;
+
+  --ion-background-color: #041227;
+  --ion-background-color-rgb: 4, 18, 39;
+  --ion-text-color: #f4f7ff;
+  --ion-text-color-rgb: 244, 247, 255;
+
+  --app-page-background: radial-gradient(circle at 25% 10%, #14254b 0%, #0c1a33 45%, #040a1a 100%);
+  --app-card-surface: rgba(7, 23, 45, 0.92);
+  --app-card-border: rgba(255, 255, 255, 0.08);
+  --app-toolbar-background: linear-gradient(135deg, #132c62, #1e4c9a);
+  --app-toolbar-color: #ffe082;
+  --app-tab-bar-background: rgba(4, 18, 39, 0.92);
+  --app-tab-bar-border: #ffde59;
+  --app-tab-bar-unselected: rgba(255, 255, 255, 0.65);
+  --app-muted-text: #d0dcff;
+}
+
 /**
  * Generate Ionic utility classes based on the colors above
  */

@@ -10,6 +10,17 @@
   padding: 0 16px 40px 16px;
 }
 
+.night-toggle {
+  --color: var(--app-toolbar-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+
+  ion-icon {
+    font-size: 1.3rem;
+  }
+}
+
 .simpsons-toolbar {
   --background: var(--app-toolbar-background);
   --color: var(--app-toolbar-color);
@@ -110,10 +121,97 @@ ion-card-content {
     }
   }
 
+  .favorite-quote {
+    font-style: italic;
+    text-align: center;
+    color: var(--ion-color-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
   ion-button {
     font-weight: 600;
     --border-radius: 14px;
     --border-width: 2px;
+  }
+}
+
+.locations-section {
+  margin: 56px auto 32px;
+  max-width: 1100px;
+  background: var(--app-card-surface);
+  border-radius: 28px;
+  padding: 32px 20px 44px;
+  border: 1px solid var(--app-card-border);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 32px;
+  color: var(--ion-text-color);
+
+  h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.4rem;
+    letter-spacing: 1.4px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--app-muted-text);
+    line-height: 1.6;
+  }
+}
+
+.location-card {
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--app-card-surface);
+  border: 1px solid var(--app-card-border);
+  color: var(--ion-text-color);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.16);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 22px 34px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.location-image {
+  height: 220px;
+  background: linear-gradient(180deg, rgba(255, 243, 196, 0.85), rgba(255, 213, 113, 0.95));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.location-card ion-card-header {
+  text-align: center;
+
+  ion-card-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    letter-spacing: 1.1px;
+  }
+}
+
+.location-card ion-card-content {
+  padding-bottom: 28px;
+
+  p {
+    margin: 0;
+    line-height: 1.55;
+    color: var(--app-muted-text);
   }
 }
 
@@ -149,26 +247,43 @@ ion-card-content {
   --favorites-background: var(--favorites-background-dark);
 }
 
+:host-context(.theme-springfield-night) {
+  --favorites-background: var(--favorites-background-dark);
+}
+
 :host-context(.dark-theme) .favorites-intro,
-:host-context(.dark-theme) .favorite-card {
+:host-context(.dark-theme) .favorite-card,
+:host-context(.theme-springfield-night) .favorites-intro,
+:host-context(.theme-springfield-night) .favorite-card,
+:host-context(.theme-springfield-night) .locations-section,
+:host-context(.theme-springfield-night) .location-card {
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.4);
 }
 
-:host-context(.dark-theme) .favorite-image {
+:host-context(.dark-theme) .favorite-image,
+:host-context(.theme-springfield-night) .favorite-image,
+:host-context(.theme-springfield-night) .location-image {
   background: linear-gradient(180deg, rgba(20, 32, 55, 0.9), rgba(6, 17, 33, 0.95));
 }
 
-:host-context(.dark-theme) ion-card-header ion-card-subtitle {
+:host-context(.dark-theme) ion-card-header ion-card-subtitle,
+:host-context(.theme-springfield-night) ion-card-header ion-card-subtitle {
   color: var(--ion-color-primary);
 }
 
-:host-context(.dark-theme) ion-card-content .tags ion-badge {
+:host-context(.dark-theme) ion-card-content .tags ion-badge,
+:host-context(.theme-springfield-night) ion-card-content .tags ion-badge {
   background: rgba(255, 255, 255, 0.15);
   color: var(--ion-text-color);
 }
 
-:host-context(.dark-theme) .empty-state p {
+:host-context(.dark-theme) .empty-state p,
+:host-context(.theme-springfield-night) .empty-state p {
   color: var(--app-muted-text);
+}
+
+:host-context(.theme-springfield-night) .location-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @media (max-width: 576px) {
@@ -179,5 +294,9 @@ ion-card-content {
 
   .favorite-image {
     height: 200px;
+  }
+
+  .locations-section {
+    padding: 24px 16px 32px;
   }
 }

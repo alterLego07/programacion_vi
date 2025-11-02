@@ -1,6 +1,6 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Observable, catchError, map, of, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, combineLatest, map, of, shareReplay } from 'rxjs';
 import { FavoritesService } from '../services/favorites.service';
 import { ApiResponseLocations, Character, Location, SimpsonsService } from '../services/simpsons.service';
 import { environment } from '../../environments/environment';
@@ -33,6 +33,8 @@ export class Tab3Page implements OnDestroy {
   private readonly favoritesService = inject(FavoritesService);
   private readonly simpsonsService = inject(SimpsonsService);
   private readonly document = inject(DOCUMENT);
+  private readonly locationTypeFilterSubject = new BehaviorSubject<string>('all');
+  private readonly defaultLocationType = 'Sin categoría';
 
   readonly favoritesWithQuotes$: Observable<FavoriteWithQuote[]> = this.favoritesService.favorites$.pipe(
     map((favorites) =>
@@ -41,6 +43,11 @@ export class Tab3Page implements OnDestroy {
         quote: this.pickRandomQuote(character.phrases)
       }))
     ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  readonly favoritesCount$ = this.favoritesService.favorites$.pipe(
+    map((favorites) => favorites.length),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
@@ -56,8 +63,43 @@ export class Tab3Page implements OnDestroy {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
+  readonly locationTypes$: Observable<string[]> = this.locations$.pipe(
+    map((locations) => {
+      const types = new Set<string>();
+
+      locations.forEach((location) => {
+        const type = location.type?.trim();
+        if (type && type.length > 0) {
+          types.add(type);
+        } else {
+          types.add(this.defaultLocationType);
+        }
+      });
+
+      return Array.from(types).sort((a, b) => a.localeCompare(b));
+    })
+  );
+
+  readonly filteredLocations$: Observable<Location[]> = combineLatest([
+    this.locations$,
+    this.locationTypeFilterSubject.asObservable()
+  ]).pipe(
+    map(([locations, selectedType]) => {
+      if (selectedType === 'all') {
+        return locations;
+      }
+
+      return locations.filter((location) => {
+        const type = location.type?.trim();
+        const normalizedType = type && type.length > 0 ? type : this.defaultLocationType;
+        return normalizedType === selectedType;
+      });
+    })
+  );
+
   nightThemeEnabled = false;
   private readonly nightThemeClass = 'theme-springfield-night';
+  selectedLocationType: string = 'all';
 
   getImageUrl(portraitPath: string): string {
     return environment.imageBaseUrl + portraitPath;
@@ -84,8 +126,15 @@ export class Tab3Page implements OnDestroy {
     this.updateNightTheme();
   }
 
+  onLocationTypeChange(value: string | null | undefined): void {
+    const nextValue = value && value.length > 0 ? value : 'all';
+    this.selectedLocationType = nextValue;
+    this.locationTypeFilterSubject.next(nextValue);
+  }
+
   ngOnDestroy(): void {
     this.document.body.classList.remove(this.nightThemeClass);
+    this.locationTypeFilterSubject.complete();
   }
 
   private pickRandomQuote(phrases: string[] | null | undefined): string | null {

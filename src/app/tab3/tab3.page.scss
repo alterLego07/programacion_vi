@@ -27,9 +27,37 @@
   font-family: 'Bangers', cursive;
   letter-spacing: 1px;
 
+  ion-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .favorites-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: rgba(255, 214, 0, 0.25);
+      color: var(--ion-color-warning-contrast);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      line-height: 1;
+    }
+  }
+
   &.condensed {
     --background: rgba(25, 118, 210, 0.92);
     backdrop-filter: blur(6px);
+
+    ion-title {
+      .favorites-count {
+        font-size: 1.2rem;
+        padding: 4px 14px;
+        background: rgba(255, 214, 0, 0.32);
+      }
+    }
   }
 }
 
@@ -146,6 +174,29 @@ ion-card-content {
   box-shadow: 0 18px 32px rgba(0, 0, 0, 0.18);
 }
 
+.location-filters {
+  margin: 0 auto 24px;
+  max-width: 720px;
+
+  ion-segment {
+    border-radius: 18px;
+    --background: rgba(255, 255, 255, 0.6);
+    --indicator-height: 100%;
+    padding: 6px;
+    overflow-x: auto;
+  }
+
+  ion-segment-button {
+    --indicator-color: rgba(25, 118, 210, 0.9);
+    --color: var(--ion-color-primary-contrast);
+    min-width: 110px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-radius: 14px;
+  }
+}
+
 .section-header {
   text-align: center;
   margin-bottom: 32px;
@@ -260,6 +311,16 @@ ion-card-content {
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.4);
 }
 
+:host-context(.dark-theme) .location-filters ion-segment,
+:host-context(.theme-springfield-night) .location-filters ion-segment {
+  --background: rgba(255, 255, 255, 0.12);
+}
+
+:host-context(.dark-theme) .location-filters ion-segment-button,
+:host-context(.theme-springfield-night) .location-filters ion-segment-button {
+  --indicator-color: rgba(255, 214, 0, 0.8);
+}
+
 :host-context(.dark-theme) .favorite-image,
 :host-context(.theme-springfield-night) .favorite-image,
 :host-context(.theme-springfield-night) .location-image {
@@ -298,5 +359,15 @@ ion-card-content {
 
   .locations-section {
     padding: 24px 16px 32px;
+  }
+
+  .location-filters ion-segment {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .location-filters ion-segment-button {
+    min-width: 96px;
+    font-size: 0.75rem;
   }
 }

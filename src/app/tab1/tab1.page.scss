@@ -57,6 +57,21 @@ ion-col {
   --color-focused: inherit;
 }
 
+.new-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 2;
+  font-family: 'Bangers', cursive;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  --background: linear-gradient(135deg, var(--ion-color-success), #7cff5c);
+  --color: #1b3d1b;
+  padding: 6px 10px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(37, 133, 63, 0.4);
+}
+
 .character-image-container {
   width: 100%;
   height: 220px;
@@ -106,6 +121,41 @@ ion-card-content {
     font-size: 0.95rem;
     font-weight: 500;
   }
+
+  .phrase-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    .phrase-label {
+      margin: 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ion-color-secondary);
+    }
+
+    .phrase-text {
+      margin: 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--ion-text-color);
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+    }
+
+    .phrase-button {
+      --padding-start: 12px;
+      --padding-end: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+  }
 }
 
 .simpsons-chip {
@@ -137,6 +187,12 @@ ion-card-content {
 
 :host-context(.dark-theme) ion-card-content .occupation {
   color: var(--app-muted-text);
+}
+
+:host-context(.dark-theme) ion-card-content .phrase-section .phrase-text {
+  background: rgba(27, 40, 68, 0.85);
+  color: var(--ion-color-light);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 576px) {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SimpsonsService, Character } from '../services/simpsons.service';
+import { FavoritesService } from '../services/favorites.service';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -13,7 +14,10 @@ export class Tab1Page implements OnInit {
   loading: boolean = false;
   page: number = 1;
 
-  constructor(private simpsonsService: SimpsonsService) {}
+  constructor(
+    private simpsonsService: SimpsonsService,
+    private favoritesService: FavoritesService
+  ) {}
 
   ngOnInit() {
     this.loadCharacters();
@@ -52,5 +56,13 @@ export class Tab1Page implements OnInit {
 
   getImageUrl(portraitPath: string): string {
     return environment.imageBaseUrl + portraitPath;
+  }
+
+  toggleFavorite(character: Character): void {
+    this.favoritesService.toggleFavorite(character);
+  }
+
+  isFavorite(character: Character): boolean {
+    return this.favoritesService.isFavorite(character.id);
   }
 }

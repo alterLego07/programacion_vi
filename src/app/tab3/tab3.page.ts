@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FavoritesService } from '../services/favorites.service';
+import { Character } from '../services/simpsons.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-tab3',
@@ -7,7 +11,19 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class Tab3Page {
+  readonly favorites$: Observable<Character[]> = this.favoritesService.favorites$;
 
-  constructor() {}
+  constructor(private favoritesService: FavoritesService) {}
 
+  getImageUrl(portraitPath: string): string {
+    return environment.imageBaseUrl + portraitPath;
+  }
+
+  removeFavorite(character: Character): void {
+    this.favoritesService.removeFavorite(character.id);
+  }
+
+  trackByCharacter(_: number, character: Character): number {
+    return character.id;
+  }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SimpsonsService, Character } from '../services/simpsons.service';
 import { environment } from '../../environments/environment';
 
@@ -9,12 +9,12 @@ import { environment } from '../../environments/environment';
   standalone: false,
 })
 export class Tab2Page {
+  private readonly simpsonsService = inject(SimpsonsService);
+
   searchTerm: string = '';
   characters: Character[] = [];
   loading: boolean = false;
   searched: boolean = false;
-
-  constructor(private simpsonsService: SimpsonsService) {}
 
   searchCharacters() {
     if (this.searchTerm.trim() === '') {

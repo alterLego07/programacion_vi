@@ -1,25 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
 :host {
-  --simpsons-yellow: #fed41d;
-  --simpsons-blue: #0f62fe;
-  --simpsons-pink: #ff8ad8;
-  --simpsons-cloud: #fff4c2;
+  --favorites-background: linear-gradient(180deg, #fffbce 0%, #f9f6a3 50%, #ffe27a 100%);
+  --favorites-background-dark: linear-gradient(180deg, rgba(26, 39, 68, 0.95) 0%, rgba(10, 22, 44, 0.95) 60%, rgba(5, 12, 26, 0.98) 100%);
 }
 
 .favorites-content {
-  --background: linear-gradient(180deg, #fffbce 0%, #f9f6a3 50%, #ffe27a 100%);
+  --background: var(--favorites-background);
   padding: 0 16px 40px 16px;
 }
 
 .simpsons-toolbar {
-  --background: linear-gradient(135deg, var(--simpsons-blue), #33a1ff);
-  --color: #fff;
+  --background: var(--app-toolbar-background);
+  --color: var(--app-toolbar-color);
   font-family: 'Bangers', cursive;
   letter-spacing: 1px;
 
   &.condensed {
-    --background: rgba(15, 98, 254, 0.92);
+    --background: rgba(25, 118, 210, 0.92);
     backdrop-filter: blur(6px);
   }
 }
@@ -32,9 +30,9 @@
 .favorites-intro {
   text-align: center;
   font-size: 1.05rem;
-  color: #2d2d2d;
+  color: var(--app-muted-text);
   margin: 24px auto 32px auto;
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--app-card-surface);
   padding: 16px 24px;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
@@ -43,9 +41,11 @@
 .favorite-card {
   border-radius: 24px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--app-card-surface);
+  border: 1px solid var(--app-card-border);
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.18);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  color: var(--ion-text-color);
 
   &:hover {
     transform: translateY(-8px);
@@ -54,7 +54,7 @@
 }
 
 .favorite-image {
-  background: linear-gradient(180deg, var(--simpsons-cloud), #ffe898);
+  background: linear-gradient(180deg, rgba(255, 244, 194, 0.9), #ffe898);
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -73,7 +73,7 @@ ion-card-header {
   padding: 22px 18px 14px 18px;
 
   ion-card-subtitle {
-    color: var(--simpsons-blue);
+    color: var(--ion-color-secondary);
     letter-spacing: 1px;
     font-size: 0.85rem;
     text-transform: uppercase;
@@ -83,7 +83,7 @@ ion-card-header {
     margin-top: 6px;
     font-family: 'Bangers', cursive;
     font-size: 1.6rem;
-    color: #1f1f1f;
+    color: var(--ion-text-color);
     letter-spacing: 1px;
   }
 }
@@ -124,11 +124,11 @@ ion-card-content {
   align-items: center;
   text-align: center;
   gap: 16px;
-  color: #1f1f1f;
+  color: var(--ion-text-color);
 
   .empty-icon {
     font-size: 4.5rem;
-    color: var(--simpsons-pink);
+    color: var(--ion-color-tertiary);
     filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.2));
   }
 
@@ -141,7 +141,34 @@ ion-card-content {
   p {
     max-width: 420px;
     line-height: 1.5;
+    color: var(--app-muted-text);
   }
+}
+
+:host-context(.dark-theme) {
+  --favorites-background: var(--favorites-background-dark);
+}
+
+:host-context(.dark-theme) .favorites-intro,
+:host-context(.dark-theme) .favorite-card {
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.4);
+}
+
+:host-context(.dark-theme) .favorite-image {
+  background: linear-gradient(180deg, rgba(20, 32, 55, 0.9), rgba(6, 17, 33, 0.95));
+}
+
+:host-context(.dark-theme) ion-card-header ion-card-subtitle {
+  color: var(--ion-color-primary);
+}
+
+:host-context(.dark-theme) ion-card-content .tags ion-badge {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--ion-text-color);
+}
+
+:host-context(.dark-theme) .empty-state p {
+  color: var(--app-muted-text);
 }
 
 @media (max-width: 576px) {

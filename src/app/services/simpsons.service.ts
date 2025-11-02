@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -45,9 +45,8 @@ export interface ApiResponseEpisodes {
   providedIn: 'root'
 })
 export class SimpsonsService {
-  private apiUrl = environment.apiUrl;
-
-  constructor(private http: HttpClient) {}
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
 
   getCharacters(page: number = 1, limit: number = 20): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.apiUrl}/characters?page=${page}&limit=${limit}`);
@@ -64,5 +63,4 @@ export class SimpsonsService {
   getEpisodes(page: number = 1, limit: number = 20): Observable<ApiResponseEpisodes> {
     return this.http.get<ApiResponseEpisodes>(`${this.apiUrl}/episodes?page=${page}&limit=${limit}`);
   }
-  
 }

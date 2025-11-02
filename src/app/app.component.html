@@ -1,3 +1,11 @@
 <ion-app>
   <ion-router-outlet></ion-router-outlet>
+  <button type="button"
+          class="theme-toggle"
+          [class.theme-toggle--dark]="isDarkMode"
+          (click)="toggleTheme()"
+          [attr.aria-label]="themeLabel">
+    <ion-icon [name]="isDarkMode ? 'moon' : 'sunny'"></ion-icon>
+    <span class="theme-toggle__text">{{ isDarkMode ? 'Oscuro' : 'Claro' }}</span>
+  </button>
 </ion-app>

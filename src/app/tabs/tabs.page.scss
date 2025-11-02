@@ -1,26 +1,20 @@
-
 ion-tab-bar {
-  /* Usamos un color oscuro para el fondo del footer */
-  --background: var(--ion-color-simpsons-dark);
+  --background: var(--app-tab-bar-background);
+  border-top: 4px solid var(--app-tab-bar-border);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.25);
+}
 
-  /* Un borde superior con el amarillo simpsons */
-  border-top: 4px solid var(--ion-color-simpsons-yellow);
+ion-tab-button {
+  --color: var(--app-tab-bar-unselected);
+  --color-selected: var(--ion-color-primary);
+  font-weight: 600;
+  letter-spacing: 0.6px;
+}
 
-  /* Estilos para los botones de las pestañas */
-  ion-tab-button {
-    /* Color de íconos y texto inactivos */
-    --color: #999;
+ion-tab-button ion-icon {
+  font-size: 1.5rem;
+}
 
-    /* Color de íconos y texto ACTIVOS (seleccionados) */
-    --color-selected: var(--ion-color-simpsons-yellow);
-
-    /* Opcional: Hacemos el texto e ícono más notorios */
-    ion-label {
-      font-weight: 600;
-    }
-
-    ion-icon {
-      font-size: 1.6rem; // Un poco más grande
-    }
-  }
+ion-tab-button.ion-activated {
+  transform: translateY(-3px);
 }

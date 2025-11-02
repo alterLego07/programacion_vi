@@ -6,40 +6,64 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="search-content">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Buscar</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchCharacters()" (ionClear)="clearSearch()"
-    placeholder="Buscar personaje..." showClearButton="always">
+  <section class="search-hero">
+    <span class="search-hero__badge">Guía de Springfield</span>
+    <h1>Encuentra a tu personaje favorito</h1>
+    <p>
+      Ingresa un nombre, profesión o pista para descubrir información de los habitantes de Springfield.
+    </p>
+  </section>
+
+  <ion-searchbar
+    class="simpsons-searchbar"
+    [(ngModel)]="searchTerm"
+    (ionChange)="searchCharacters()"
+    (ionClear)="clearSearch()"
+    placeholder="Buscar personaje..."
+    showClearButton="always">
   </ion-searchbar>
 
-  <div *ngIf="loading" class="ion-text-center ion-padding">
+  <div *ngIf="loading" class="loading-state">
     <ion-spinner></ion-spinner>
+    <p>Cargando resultados...</p>
   </div>
 
-  <ion-list *ngIf="!loading && characters.length > 0">
-    <ion-item *ngFor="let character of characters">
-      <ion-avatar slot="start">
+  <ion-list *ngIf="!loading && characters.length > 0" class="results-list" lines="none">
+    <ion-item *ngFor="let character of characters" class="results-item">
+      <ion-avatar slot="start" class="results-avatar">
         <img [src]="getImageUrl(character.portrait_path)" [alt]="character.name">
       </ion-avatar>
       <ion-label>
         <h2>{{ character.name }}</h2>
         <p>{{ character.occupation }}</p>
+        <ion-chip color="primary">
+          <ion-icon name="color-wand" color="dark"></ion-icon>
+          <ion-label>{{ character.status }}</ion-label>
+        </ion-chip>
       </ion-label>
     </ion-item>
   </ion-list>
 
-  <div *ngIf="!loading && searched && characters.length === 0" class="ion-text-center ion-padding">
-    <ion-icon name="search-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
-    <p>No se encontraron personajes</p>
+  <div *ngIf="!loading && searched && characters.length === 0" class="empty-search">
+    <ion-icon name="search-outline"></ion-icon>
+    <h2>No se encontraron personajes</h2>
+    <p>
+      Prueba con otro nombre o revisa la ortografía para continuar explorando Springfield.
+    </p>
   </div>
 
-  <div *ngIf="!loading && !searched" class="ion-text-center ion-padding" style="margin-top: 50%;">
-    <ion-icon name="search" style="font-size: 64px; color: #ccc;"></ion-icon>
-    <p>Busca tu personaje favorito de Los Simpson</p>
+  <div *ngIf="!loading && !searched" class="empty-search empty-search--hint">
+    <ion-icon name="bulb-outline"></ion-icon>
+    <h2>Busca tu personaje favorito</h2>
+    <p>
+      "¡Excelente!" Usa el buscador para conocer detalles de cada habitante amarillo.
+    </p>
   </div>
 </ion-content>

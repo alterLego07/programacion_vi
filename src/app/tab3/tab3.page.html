@@ -2,6 +2,9 @@
   <ion-toolbar class="simpsons-toolbar">
     <ion-title>
       Favoritos
+      <span class="favorites-count" *ngIf="favoritesCount$ | async as favoritesCount">
+        ({{ favoritesCount }})
+      </span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" class="night-toggle" (click)="switchNightTheme()" [aria-pressed]="nightThemeEnabled">
@@ -15,7 +18,12 @@
 <ion-content [fullscreen]="true" class="favorites-content">
   <ion-header collapse="condense">
     <ion-toolbar class="simpsons-toolbar condensed">
-      <ion-title size="large">Favoritos</ion-title>
+      <ion-title size="large">
+        Favoritos
+        <span class="favorites-count" *ngIf="favoritesCount$ | async as favoritesCount">
+          ({{ favoritesCount }})
+        </span>
+      </ion-title>
       <ion-buttons slot="end">
         <ion-button fill="clear" class="night-toggle" (click)="switchNightTheme()" [aria-pressed]="nightThemeEnabled">
           <ion-icon slot="icon-only" [name]="nightThemeEnabled ? 'moon' : 'partly-sunny-outline'"></ion-icon>
@@ -63,10 +71,20 @@
     </section>
   </ng-container>
 
-  <section class="locations-section" *ngIf="locations$ | async as locations">
+  <section class="locations-section" *ngIf="filteredLocations$ | async as locations">
     <div class="section-header">
       <h2>Rincones de Springfield</h2>
       <p>Revisa los lugares más emblemáticos de la ciudad: desde la Taberna de Moe hasta la Planta Nuclear.</p>
+    </div>
+    <div class="location-filters" *ngIf="locationTypes$ | async as locationTypes">
+      <ion-segment [value]="selectedLocationType" (ionChange)="onLocationTypeChange($event.detail.value)">
+        <ion-segment-button value="all">
+          <ion-label>Todas</ion-label>
+        </ion-segment-button>
+        <ion-segment-button *ngFor="let type of locationTypes" [value]="type">
+          <ion-label>{{ type }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
     </div>
     <ion-grid>
       <ion-row>

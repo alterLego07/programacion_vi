@@ -3,6 +3,12 @@
     <ion-title>
       Favoritos
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" class="night-toggle" (click)="switchNightTheme()" [aria-pressed]="nightThemeEnabled">
+        <ion-icon slot="start" [name]="nightThemeEnabled ? 'moon' : 'partly-sunny-outline'"></ion-icon>
+        {{ nightThemeEnabled ? 'Noche en Springfield' : 'Activar noche' }}
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -10,10 +16,15 @@
   <ion-header collapse="condense">
     <ion-toolbar class="simpsons-toolbar condensed">
       <ion-title size="large">Favoritos</ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" class="night-toggle" (click)="switchNightTheme()" [aria-pressed]="nightThemeEnabled">
+          <ion-icon slot="icon-only" [name]="nightThemeEnabled ? 'moon' : 'partly-sunny-outline'"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
 
-  <ng-container *ngIf="favorites$ | async as favorites">
+  <ng-container *ngIf="favoritesWithQuotes$ | async as favorites">
     <section *ngIf="favorites.length; else emptyState" class="favorites-wrapper">
       <p class="favorites-intro">Estos son los vecinos de Springfield que elegiste como favoritos. ¡Puedes quitar a cualquiera cuando quieras!</p>
       <ion-grid>
@@ -22,22 +33,25 @@
             size="12"
             size-md="6"
             size-lg="4"
-            *ngFor="let character of favorites; trackBy: trackByCharacter"
+            *ngFor="let favorite of favorites; trackBy: trackByFavorite"
           >
-            <ion-card class="favorite-card">
+            <ion-card class="favorite-card" [@favoriteCardAnimation]>
               <div class="favorite-image">
-                <img [src]="getImageUrl(character.portrait_path)" [alt]="character.name">
+                <img [src]="getImageUrl(favorite.character.portrait_path)" [alt]="favorite.character.name">
               </div>
               <ion-card-header>
-                <ion-card-subtitle>{{ character.occupation }}</ion-card-subtitle>
-                <ion-card-title>{{ character.name }}</ion-card-title>
+                <ion-card-subtitle>{{ favorite.character.occupation }}</ion-card-subtitle>
+                <ion-card-title>{{ favorite.character.name }}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
                 <div class="tags">
-                  <ion-badge color="warning">{{ character.status }}</ion-badge>
-                  <ion-badge color="tertiary">{{ character.gender }}</ion-badge>
+                  <ion-badge color="warning">{{ favorite.character.status }}</ion-badge>
+                  <ion-badge color="tertiary">{{ favorite.character.gender }}</ion-badge>
                 </div>
-                <ion-button expand="block" color="danger" fill="outline" (click)="removeFavorite(character)">
+                <blockquote class="favorite-quote" *ngIf="favorite.quote">
+                  “{{ favorite.quote }}”
+                </blockquote>
+                <ion-button expand="block" color="danger" fill="outline" (click)="removeFavorite(favorite.character)">
                   <ion-icon slot="start" name="trash"></ion-icon>
                   Quitar de favoritos
                 </ion-button>
@@ -48,6 +62,36 @@
       </ion-grid>
     </section>
   </ng-container>
+
+  <section class="locations-section" *ngIf="locations$ | async as locations">
+    <div class="section-header">
+      <h2>Rincones de Springfield</h2>
+      <p>Revisa los lugares más emblemáticos de la ciudad: desde la Taberna de Moe hasta la Planta Nuclear.</p>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          size-md="6"
+          size-lg="4"
+          *ngFor="let location of locations; trackBy: trackByLocation"
+        >
+          <ion-card class="location-card" [@locationCardAnimation]>
+            <div class="location-image">
+              <img [src]="getLocationImageUrl(location.image_path)" [alt]="location.name">
+            </div>
+            <ion-card-header>
+              <ion-card-title>{{ location.name }}</ion-card-title>
+              <ion-card-subtitle *ngIf="location.type">{{ location.type }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ location.description || 'Un clásico imprescindible dentro de Springfield.' }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </section>
 
   <ng-template #emptyState>
     <div class="empty-state">

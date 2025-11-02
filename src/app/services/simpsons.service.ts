@@ -41,6 +41,22 @@ export interface ApiResponseEpisodes {
   results: Episode[];
 }
 
+export interface Location {
+  id: number;
+  name: string;
+  image_path: string;
+  description?: string;
+  type?: string;
+}
+
+export interface ApiResponseLocations {
+  count: number;
+  next: string | null;
+  prev: string | null;
+  pages: number;
+  results: Location[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,5 +78,9 @@ export class SimpsonsService {
 
   getEpisodes(page: number = 1, limit: number = 20): Observable<ApiResponseEpisodes> {
     return this.http.get<ApiResponseEpisodes>(`${this.apiUrl}/episodes?page=${page}&limit=${limit}`);
+  }
+
+  getLocations(page: number = 1, limit: number = 12): Observable<ApiResponseLocations | Location[]> {
+    return this.http.get<ApiResponseLocations | Location[]>(`${this.apiUrl}/locations?page=${page}&limit=${limit}`);
   }
 }

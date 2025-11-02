@@ -25,34 +25,88 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700&display=swap');
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
-
-
-/*
- * Fondo global de la aplicación
- * Usamos el amarillo pálido para que no sea muy fuerte a la vista.
- */
-ion-content {
-  --background: var(--ion-color-simpsons-bg);
+:root {
+  font-family: 'Nunito', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/*
- * Las tarjetas, items y cabeceras
- * también tengan un fondo (ligeramente) diferente.
- */
+body {
+  background: var(--ion-background-color);
+  color: var(--ion-text-color);
+  font-family: inherit;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+ion-app {
+  color: inherit;
+}
+
+ion-content {
+  --background: var(--app-page-background);
+  color: inherit;
+}
+
+ion-toolbar {
+  --background: var(--app-toolbar-background);
+  --color: var(--app-toolbar-color);
+  --border-width: 0;
+  font-family: 'Bangers', cursive;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+ion-tab-bar {
+  --background: var(--app-tab-bar-background);
+  border-top: 4px solid var(--app-tab-bar-border);
+}
+
+ion-tab-button {
+  --color: var(--app-tab-bar-unselected);
+  --color-selected: var(--ion-color-primary);
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+ion-tab-button ion-icon {
+  font-size: 1.4rem;
+}
+
 ion-card,
 ion-item,
-ion-toolbar,
-ion-list {
-  // Un blanco 'roto' que combina con el fondo amarillo
-  --background: #fffcf2; 
+ion-list,
+ion-accordion,
+ion-searchbar {
+  --background: var(--app-card-surface);
+  background: var(--app-card-surface);
+  color: inherit;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--app-card-border);
+}
+
+body.dark-theme ion-card,
+body.dark-theme ion-item,
+body.dark-theme ion-list,
+body.dark-theme ion-accordion,
+body.dark-theme ion-searchbar {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+ion-item::part(native) {
+  background: transparent;
+}
+
+ion-searchbar {
+  --border-radius: 20px;
+}
+
+ion-chip,
+ion-badge {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.ios body {
+  font-family: inherit;
 }

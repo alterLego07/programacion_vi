@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SimpsonsService, Character } from '../services/simpsons.service';
 import { FavoritesService } from '../services/favorites.service';
 import { environment } from '../../environments/environment';
@@ -10,14 +10,12 @@ import { environment } from '../../environments/environment';
   standalone: false,
 })
 export class Tab1Page implements OnInit {
+  private readonly simpsonsService = inject(SimpsonsService);
+  private readonly favoritesService = inject(FavoritesService);
+
   characters: Character[] = [];
   loading: boolean = false;
   page: number = 1;
-
-  constructor(
-    private simpsonsService: SimpsonsService,
-    private favoritesService: FavoritesService
-  ) {}
 
   ngOnInit() {
     this.loadCharacters();

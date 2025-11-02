@@ -1,65 +1,229 @@
-/* Estilos del ítem de episodio (se mantienen igual) */
-ion-thumbnail {
-  width: 80px;
-  height: 80px;
-  border-radius: 8px;
-  overflow: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
+.episodes-content {
+  --background: var(--app-page-background);
+  padding-bottom: 48px;
+}
+
+.episodes-hero {
+  max-width: 760px;
+  margin: 16px auto 24px auto;
+  padding: 28px 32px;
+  text-align: center;
+  background: var(--app-card-surface);
+  border: 1px solid var(--app-card-border);
+  border-radius: 28px;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.15);
+  color: var(--ion-text-color);
+}
+
+.episodes-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(25, 118, 210, 0.15);
+  color: var(--ion-color-secondary);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-size: 0.75rem;
+}
+
+.episodes-hero h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 2.4rem;
+  letter-spacing: 1.3px;
+  margin: 16px 0 12px 0;
+}
+
+.episodes-hero p {
+  margin: 0 auto;
+  max-width: 520px;
+  color: var(--app-muted-text);
+  line-height: 1.6;
+}
+
+.episodes-stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.episodes-stats ion-chip {
+  --background: rgba(253, 216, 53, 0.25);
+  --color: var(--ion-color-secondary);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.episodes-stats ion-chip:nth-child(2) {
+  --background: rgba(255, 138, 216, 0.25);
+}
+
+.episodes-search {
+  max-width: 520px;
+  margin: 0 auto 24px auto;
+  --background: var(--app-card-surface);
+  --placeholder-color: rgba(31, 31, 31, 0.6);
+  --icon-color: var(--ion-color-secondary);
+  box-shadow: 0 16px 26px rgba(0, 0, 0, 0.12);
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--ion-text-color);
+}
+
+.season-accordion {
+  margin-bottom: 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: none;
+}
+
+.season-header {
+  --background: var(--app-card-surface);
+  --color: var(--ion-text-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-family: 'Bangers', cursive;
+  letter-spacing: 0.8px;
+  font-size: 1.2rem;
+  --min-height: 64px;
+  border-radius: 20px;
+  margin: 0 0 4px 0;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.season-header ion-icon {
+  font-size: 1.6rem;
+  color: var(--ion-color-secondary);
+}
+
+.episodes-list {
+  background: transparent;
+  border-radius: 0 0 24px 24px;
+  padding: 8px 0 16px 0;
+  box-shadow: none;
+  border: none;
 }
 
 .episode-item {
-  --inner-padding-bottom: 12px;
-  --inner-padding-top: 12px;
+  --background: transparent;
+  margin: 8px 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--app-card-surface);
+  border: 1px solid var(--app-card-border);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.1);
+  color: var(--ion-text-color);
 }
 
-ion-label {
-  h2 {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .synopsis {
-    font-size: 0.85rem;
-    color: var(--ion-color-medium-shade);
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-
-  .airdate {
-    font-size: 0.75rem;
-    color: var(--ion-color-medium);
-    margin-top: 6px;
-  }
+ion-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-/* --- ESTILOS AÑADIDOS/MODIFICADOS --- */
-
-/* Estilo para la cabecera del acordeón */
-ion-accordion {
-  margin-bottom: 8px;
-  border-radius: 8px;
-  overflow: hidden; // Para que el border-radius afecte a los hijos
-  
-  // Estilo de la cabecera (Temporada X)
-  ion-item[slot="header"] {
-    --border-width: 0; // Sin borde inferior en la cabecera
-    --background: var(--ion-color-light); // Fondo gris claro
-    font-weight: 600;
-  }
+ion-thumbnail img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
-// Quita el padding por defecto del contenido del acordeón
-// para que la lista interna ocupe todo el espacio.
-.ion-no-padding {
-  padding: 0;
+ion-label h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  font-family: 'Nunito', sans-serif;
+}
+
+ion-label .synopsis {
+  font-size: 0.9rem;
+  color: var(--app-muted-text);
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+ion-label .airdate {
+  font-size: 0.8rem;
+  color: var(--ion-color-secondary);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.empty-search {
+  margin: 56px auto 0 auto;
+  max-width: 420px;
+  text-align: center;
+  color: var(--ion-text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.empty-search ion-icon {
+  font-size: 3.2rem;
+  color: var(--ion-color-tertiary);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.2));
+}
+
+.empty-search h2 {
+  font-family: 'Bangers', cursive;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.empty-search p {
+  margin: 0;
+  color: var(--app-muted-text);
+}
+
+:host-context(.dark-theme) .episodes-hero,
+:host-context(.dark-theme) .season-header,
+:host-context(.dark-theme) .episode-item {
+  box-shadow: 0 20px 32px rgba(0, 0, 0, 0.45);
+}
+
+:host-context(.dark-theme) .episodes-stats ion-chip {
+  --color: var(--ion-color-primary-contrast);
+}
+
+:host-context(.dark-theme) .episodes-search {
+  --background: rgba(11, 23, 41, 0.9);
+  --placeholder-color: rgba(243, 244, 255, 0.65);
+  box-shadow: 0 20px 32px rgba(0, 0, 0, 0.45);
+}
+
+:host-context(.dark-theme) ion-label .synopsis,
+:host-context(.dark-theme) .episodes-hero p,
+:host-context(.dark-theme) .empty-search p {
+  color: var(--app-muted-text);
+}
+
+@media (max-width: 768px) {
+  .episodes-hero {
+    margin: 12px 16px 20px 16px;
+    padding: 24px 22px;
+  }
+
+  .episodes-hero h1 {
+    font-size: 2rem;
+  }
+
+  .episodes-stats {
+    flex-direction: column;
+  }
 }

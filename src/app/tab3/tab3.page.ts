@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FavoritesService } from '../services/favorites.service';
 import { Character } from '../services/simpsons.service';
@@ -11,9 +11,9 @@ import { environment } from '../../environments/environment';
   standalone: false,
 })
 export class Tab3Page {
-  readonly favorites$: Observable<Character[]> = this.favoritesService.favorites$;
+  private readonly favoritesService = inject(FavoritesService);
 
-  constructor(private favoritesService: FavoritesService) {}
+  readonly favorites$: Observable<Character[]> = this.favoritesService.favorites$;
 
   getImageUrl(portraitPath: string): string {
     return environment.imageBaseUrl + portraitPath;

@@ -126,11 +126,15 @@ export class Tab3Page implements OnDestroy {
     this.updateNightTheme();
   }
 
-  onLocationTypeChange(value: string | null | undefined): void {
-    const nextValue = value && value.length > 0 ? value : 'all';
-    this.selectedLocationType = nextValue;
-    this.locationTypeFilterSubject.next(nextValue);
+  onLocationTypeChange(value: string | number | null | undefined): void {
+    // Normalizamos lo que venga (string | number | null | undefined) a string
+    const normalized = value != null ? String(value) : 'all';
+    const nextValue = normalized.length > 0 ? normalized : 'all';
+
+    this.selectedLocationType = normalized;           // <-- siempre string
+    this.locationTypeFilterSubject.next(nextValue);   // <-- BehaviorSubject<string>
   }
+
 
   ngOnDestroy(): void {
     this.document.body.classList.remove(this.nightThemeClass);

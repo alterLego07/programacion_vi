@@ -1,17 +1,65 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar class="simpsons-toolbar">
     <ion-title>
-      Tab 3
+      Favoritos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="favorites-content">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+    <ion-toolbar class="simpsons-toolbar condensed">
+      <ion-title size="large">Favoritos</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ng-container *ngIf="favorites$ | async as favorites">
+    <section *ngIf="favorites.length; else emptyState" class="favorites-wrapper">
+      <p class="favorites-intro">Estos son los vecinos de Springfield que elegiste como favoritos. ¡Puedes quitar a cualquiera cuando quieras!</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col
+            size="12"
+            size-md="6"
+            size-lg="4"
+            *ngFor="let character of favorites; trackBy: trackByCharacter"
+          >
+            <ion-card class="favorite-card">
+              <div class="favorite-image">
+                <img [src]="getImageUrl(character.portrait_path)" [alt]="character.name">
+              </div>
+              <ion-card-header>
+                <ion-card-subtitle>{{ character.occupation }}</ion-card-subtitle>
+                <ion-card-title>{{ character.name }}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div class="tags">
+                  <ion-badge color="warning">{{ character.status }}</ion-badge>
+                  <ion-badge color="tertiary">{{ character.gender }}</ion-badge>
+                </div>
+                <ion-button expand="block" color="danger" fill="outline" (click)="removeFavorite(character)">
+                  <ion-icon slot="start" name="trash"></ion-icon>
+                  Quitar de favoritos
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </section>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="happy" class="empty-icon"></ion-icon>
+      <h2>¡Ups! No hay favoritos aún</h2>
+      <p>
+        Explora la pestaña de personajes y toca el corazón para sumar a tus habitantes favoritos de Springfield.
+      </p>
+      <ion-button routerLink="/tabs/tab1" color="warning">
+        <ion-icon slot="start" name="star"></ion-icon>
+        Ir a descubrir personajes
+      </ion-button>
+    </div>
+  </ng-template>
 </ion-content>

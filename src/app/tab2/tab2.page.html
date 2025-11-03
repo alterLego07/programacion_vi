@@ -13,12 +13,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchCharacters()" (ionClear)="clearSearch()"
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchChange($event)" (ionClear)="clearSearch()"
     placeholder="Buscar personaje..." showClearButton="always">
   </ion-searchbar>
 
-  <div *ngIf="loading" class="ion-text-center ion-padding">
-    <ion-spinner></ion-spinner>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="donut-spinner"></div>
+    <p>Cargando...</p>
   </div>
 
   <ion-list *ngIf="!loading && characters.length > 0">

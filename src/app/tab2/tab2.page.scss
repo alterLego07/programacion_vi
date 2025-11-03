@@ -1,0 +1,78 @@
+ion-content {
+  --background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+}
+
+ion-toolbar {
+  --background: #ffd700;
+  --color: #000;
+
+  ion-title {
+    font-weight: 700;
+    font-size: 1.3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+ion-searchbar {
+  --background: #fff;
+  --border-radius: 12px;
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px 16px;
+}
+
+.character-card {
+  margin: 8px 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    &:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+ion-spinner {
+  --color: #333;
+  transform: scale(1.5);
+}
+
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+
+  .donut-spinner {
+    width: 80px;
+    height: 80px;
+    background-image: url('/assets/donut.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: donut-spin 2s linear infinite;
+  }
+
+  p {
+    color: white;
+    margin-top: 16px;
+    font-size: 16px;
+  }
+}

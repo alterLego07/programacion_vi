@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SimpsonsService, Character } from '../services/simpsons.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environments';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -12,8 +13,14 @@ export class Tab1Page implements OnInit {
   characters: Character[] = [];
   loading: boolean = false;
   page: number = 1;
+  selectedCharacter: Character | null = null;
+  isModalOpen: boolean = false;
+  loadingDetails: boolean = false;
 
-  constructor(private simpsonsService: SimpsonsService) {}
+  constructor(
+    private simpsonsService: SimpsonsService,
+    private modalController: ModalController
+  ) {}
 
   ngOnInit() {
     this.loadCharacters();
@@ -48,6 +55,29 @@ export class Tab1Page implements OnInit {
     this.characters = [];
     this.page = 1;
     this.loadCharacters(event);
+  }
+
+  async openCharacterDetails(character: Character) {
+    this.loadingDetails = true;
+    this.isModalOpen = true;
+
+    // Cargar los detalles 
+    this.simpsonsService.getCharacterById(character.id).subscribe({
+      next: (fullCharacter) => {
+        this.selectedCharacter = fullCharacter;
+        this.loadingDetails = false;
+      },
+      error: (error) => {
+        console.error('Error loading character details:', error);
+        this.selectedCharacter = character; 
+        this.loadingDetails = false;
+      }
+    });
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+    this.selectedCharacter = null;
   }
 
   getImageUrl(portraitPath: string): string {

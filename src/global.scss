@@ -54,5 +54,60 @@ ion-item,
 ion-toolbar,
 ion-list {
   // Un blanco 'roto' que combina con el fondo amarillo
-  --background: #fffcf2; 
+  --background: #fffcf2;
+}
+
+/*
+ * Spinner personalizado con la rosquilla de Homero
+ * ----------------------------------------------------------------------------
+ */
+ion-spinner {
+  // Ocultar el spinner por defecto de Ionic
+  display: none !important;
+}
+
+// Crear un spinner personalizado con la imagen de la rosquilla
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Estilos para el spinner de carga personalizado
+ion-loading::part(content) {
+  background: transparent;
+}
+
+// Animación de rotación para la rosquilla
+@keyframes donut-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Clase personalizada para usar en ion-loading
+.custom-loading {
+  --background: rgba(0, 0, 0, 0.5);
+  --spinner-color: transparent;
+
+  .loading-wrapper {
+    .loading-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .donut-spinner {
+        width: 80px;
+        height: 80px;
+        background-image: url('/assets/donut.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        animation: donut-spin 2s linear infinite;
+      }
+    }
+  }
 }

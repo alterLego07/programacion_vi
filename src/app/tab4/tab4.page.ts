@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'; // Se elimina ViewChild e IonInfiniteScroll
+import { Component, OnInit } from '@angular/core'; 
 import { SimpsonsService, Episode } from '../services/simpsons.service';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environments';
 
 interface SeasonGroup {
   season: number;
@@ -14,7 +14,6 @@ interface SeasonGroup {
   standalone: false,
 })
 export class Tab4Page implements OnInit {
-  // Se elimina @ViewChild(IonInfiniteScroll) y la propiedad infiniteScroll
 
   allEpisodes: Episode[] = [];
   groupedEpisodes: SeasonGroup[] = [];
@@ -27,33 +26,30 @@ export class Tab4Page implements OnInit {
   constructor(private simpsonsService: SimpsonsService) {}
 
   ngOnInit() {
-    this.loadEpisodes(); // Inicia la carga de todas las páginas
+    this.loadEpisodes(); 
   }
 
-  loadEpisodes() { // Se elimina el parámetro 'event'
+  loadEpisodes() { // 
     if (this.page === 1) {
-      this.loading = true; // Mostrar spinner solo al inicio
+      this.loading = true; 
     }
 
     this.simpsonsService.getEpisodes(this.page, 20).subscribe({
       next: (response) => {
         this.allEpisodes = [...this.allEpisodes, ...response.results];
         this.totalPages = response.pages;
-        this.groupEpisodes(); // Agrupa y filtra en cada página cargada
+        this.groupEpisodes(); // 
 
-        // Lógica de carga recursiva
         if (this.page < this.totalPages) {
-          // Si hay más páginas, carga la siguiente
           this.page++;
           this.loadEpisodes();
         } else {
-          // Se cargaron todas las páginas, ocultamos el spinner
           this.loading = false;
         }
       },
       error: (error) => {
         console.error('Error loading episodes:', error);
-        this.loading = false; // Detener carga en caso de error
+        this.loading = false; 
       }
     });
   }
@@ -106,12 +102,10 @@ export class Tab4Page implements OnInit {
       .filter(group => group.episodes.length > 0);
   }
 
-  // Se elimina la función loadMore(event: any)
-
   getImageUrl(imagePath: string): string {
     if (!imagePath || imagePath.length < 5) {
       return 'assets/icon/favicon.png';
     }
-    return environment.episodeImageUrl + imagePath;
+    return environment.imageBaseUrl + imagePath;
   }
 }

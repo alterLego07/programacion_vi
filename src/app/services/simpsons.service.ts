@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '../../environments/environments';
 
 export interface Character {
   id: number;
@@ -13,6 +13,29 @@ export interface Character {
   portrait_path: string;
   phrases: string[];
   status: string;
+  description?: string;
+  first_appearance_ep_id?: number;
+  first_appearance_sh_id?: number;
+  first_appearance_ep?: {
+    id: number;
+    airdate: string | null;
+    description: string;
+    episode_number: number;
+    image_path: string;
+    name: string;
+    season: number;
+    synopsis: string;
+  };
+  first_appearance_sh?: {
+    id: number;
+    airdate: string | null;
+    description: string;
+    episode_number: number;
+    image_path: string;
+    name: string;
+    season: number;
+    synopsis: string;
+  };
 }
 
 export interface ApiResponse {

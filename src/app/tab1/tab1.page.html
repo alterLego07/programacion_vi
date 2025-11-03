@@ -17,10 +17,15 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
+  <div *ngIf="loading" class="loading-container">
+    <div class="donut-spinner"></div>
+    <p>Cargando...</p>
+  </div>
+
   <ion-grid>
     <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let character of characters">
-        <ion-card class="character-card">
+      <ion-col size="12" size-sm="6" size-md="4" size-lg="3" size-xl="2" *ngFor="let character of characters">
+        <ion-card class="character-card" (click)="openCharacterDetails(character)" button>
           <div class="character-image-container">
             <img [src]="getImageUrl(character.portrait_path)" [alt]="character.name" class="character-image">
           </div>
@@ -43,4 +48,116 @@
   <div *ngIf="loading && characters.length === 0" class="ion-text-center ion-padding">
     <ion-spinner></ion-spinner>
   </div>
+
+  <!-- Modal de detalles del personaje -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Detalles del Personaje</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content">
+        <div *ngIf="loadingDetails" class="ion-text-center ion-padding">
+          <ion-spinner></ion-spinner>
+          <p>Cargando detalles...</p>
+        </div>
+
+        <div *ngIf="!loadingDetails && selectedCharacter" class="character-details">
+          <div class="character-header">
+            <img [src]="getImageUrl(selectedCharacter.portrait_path)" [alt]="selectedCharacter.name"
+              class="detail-image">
+            <h1>{{ selectedCharacter.name }}</h1>
+          </div>
+
+          <ion-card class="info-card">
+            <ion-card-header>
+              <ion-card-title>Información General</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="info-item" *ngIf="selectedCharacter.age">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span><strong>Edad:</strong> {{ selectedCharacter.age }} años</span>
+              </div>
+              <div class="info-item" *ngIf="selectedCharacter.birthdate">
+                <ion-icon name="cake-outline"></ion-icon>
+                <span><strong>Fecha de nacimiento:</strong> {{ selectedCharacter.birthdate }}</span>
+              </div>
+              <div class="info-item" *ngIf="selectedCharacter.gender">
+                <ion-icon name="person-outline"></ion-icon>
+                <span><strong>Género:</strong> {{ selectedCharacter.gender }}</span>
+              </div>
+              <div class="info-item" *ngIf="selectedCharacter.occupation">
+                <ion-icon name="briefcase-outline"></ion-icon>
+                <span><strong>Ocupación:</strong> {{ selectedCharacter.occupation }}</span>
+              </div>
+              <div class="info-item" *ngIf="selectedCharacter.status">
+                <ion-icon name="pulse-outline"></ion-icon>
+                <span><strong>Estado:</strong> {{ selectedCharacter.status }}</span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="info-card" *ngIf="selectedCharacter.description">
+            <ion-card-header>
+              <ion-card-title>Descripción</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <p class="description-text">{{ selectedCharacter.description }}</p>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="info-card" *ngIf="selectedCharacter.phrases && selectedCharacter.phrases.length > 0">
+            <ion-card-header>
+              <ion-card-title>Frases Célebres</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="phrase" *ngFor="let phrase of selectedCharacter.phrases">
+                <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                <span>"{{ phrase }}"</span>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="info-card" *ngIf="selectedCharacter.first_appearance_ep">
+            <ion-card-header>
+              <ion-card-title>Primera Aparición en Episodio</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="episode-info">
+                <h3>{{ selectedCharacter.first_appearance_ep.name }}</h3>
+                <p><strong>Temporada:</strong> {{ selectedCharacter.first_appearance_ep.season }} -
+                  <strong>Episodio:</strong> {{ selectedCharacter.first_appearance_ep.episode_number }}
+                </p>
+                <p><strong>Fecha de emisión:</strong> {{ selectedCharacter.first_appearance_ep.airdate }}</p>
+                <p class="synopsis">{{ selectedCharacter.first_appearance_ep.synopsis }}</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card class="info-card" *ngIf="selectedCharacter.first_appearance_sh">
+            <ion-card-header>
+              <ion-card-title>Primera Aparición en Short</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <div class="episode-info">
+                <h3>{{ selectedCharacter.first_appearance_sh.name }}</h3>
+                <p><strong>Temporada:</strong> {{ selectedCharacter.first_appearance_sh.season }} -
+                  <strong>Episodio:</strong> {{ selectedCharacter.first_appearance_sh.episode_number }}
+                </p>
+                <p><strong>Fecha de emisión:</strong> {{ selectedCharacter.first_appearance_sh.airdate }}</p>
+                <p class="synopsis">{{ selectedCharacter.first_appearance_sh.synopsis }}</p>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

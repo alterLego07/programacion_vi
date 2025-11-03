@@ -1,3 +1,26 @@
+
 ion-tab-bar {
-  border-top: 1px solid var(--ion-color-light-shade);
+  /* Usamos un color oscuro para el fondo del footer */
+  --background: var(--ion-color-simpsons-dark);
+
+  /* Un borde superior con el amarillo simpsons */
+  border-top: 4px solid var(--ion-color-simpsons-yellow);
+
+  /* Estilos para los botones de las pestañas */
+  ion-tab-button {
+    /* Color de íconos y texto inactivos */
+    --color: #999;
+
+    /* Color de íconos y texto ACTIVOS (seleccionados) */
+    --color-selected: var(--ion-color-simpsons-yellow);
+
+    /* Opcional: Hacemos el texto e ícono más notorios */
+    ion-label {
+      font-weight: 600;
+    }
+
+    ion-icon {
+      font-size: 1.6rem; // Un poco más grande
+    }
+  }
 }

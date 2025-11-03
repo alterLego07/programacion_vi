@@ -23,6 +23,24 @@ export interface ApiResponse {
   results: Character[];
 }
 
+export interface Episode {
+  id: number;
+  airdate: string | null;
+  episode_number: number;
+  image_path: string;
+  name: string;
+  season: number;
+  synopsis: string;
+}
+
+export interface ApiResponseEpisodes {
+  count: number;
+  next: string | null;
+  prev: string | null;
+  pages: number;
+  results: Episode[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,4 +60,9 @@ export class SimpsonsService {
   searchCharacters(name: string): Observable<ApiResponse> {
     return this.http.get<ApiResponse>(`${this.apiUrl}/characters?name=${name}`);
   }
+
+  getEpisodes(page: number = 1, limit: number = 20): Observable<ApiResponseEpisodes> {
+    return this.http.get<ApiResponseEpisodes>(`${this.apiUrl}/episodes?page=${page}&limit=${limit}`);
+  }
+  
 }

@@ -35,3 +35,24 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+
+/*
+ * Fondo global de la aplicación
+ * Usamos el amarillo pálido para que no sea muy fuerte a la vista.
+ */
+ion-content {
+  --background: var(--ion-color-simpsons-bg);
+}
+
+/*
+ * Las tarjetas, items y cabeceras
+ * también tengan un fondo (ligeramente) diferente.
+ */
+ion-card,
+ion-item,
+ion-toolbar,
+ion-list {
+  // Un blanco 'roto' que combina con el fondo amarillo
+  --background: #fffcf2; 
+}
